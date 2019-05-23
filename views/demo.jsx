@@ -12,6 +12,7 @@ import Transcript from './transcript.jsx';
 import { Keywords, getKeywordsSummary } from './keywords.jsx';
 import SpeakersView from './speaker.jsx';
 import TimingView from './timing.jsx';
+import NLUView from './nlu-view.jsx';
 import JSONView from './json-view.jsx';
 import samples from '../src/data/samples.json';
 import cachedModels from '../src/data/models.json';
@@ -565,6 +566,9 @@ export class Demo extends Component {
           </Pane>
           <Pane label="JSON">
             <JSONView raw={rawMessages} formatted={formattedMessages} />
+          </Pane>
+          <Pane label="Concepts">
+            <NLUView raw={rawMessages} formatted={formattedMessages} />
           </Pane>
         </Tabs>
       </Dropzone>
