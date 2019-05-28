@@ -283,23 +283,34 @@ export class Demo extends Component {
   }
 
   componentDidMount() {
-    this.fetchToken();
+    this.fetchSTTToken();
     // tokens expire after 60 minutes, so automatcally fetch a new one ever 50 minutes
     // Not sure if this will work properly if a computer goes to sleep for > 50 minutes
     // and then wakes back up
     // react automatically binds the call to this
     // eslint-disable-next-line
-    this.setState({ tokenInterval: setInterval(this.fetchToken, 50 * 60 * 1000) });
+    this.setState({ tokenInterval: setInterval(this.fetchSTTToken, 50 * 60 * 1000) });
+    this.setState({ tokenInterval: setInterval(this.fetchNLUToken, 50 * 60 * 1000) });
   }
 
   componentWillUnmount() {
     clearInterval(this.state.tokenInterval);
   }
 
-  fetchToken() {
-    return fetch('/api/v1/credentials').then((res) => {
+  fetchNLUToken() {
+    return fetch('/api/v1/nlu_credentials').then((res) => {
       if (res.status !== 200) {
-        throw new Error('Error retrieving auth token');
+        throw new Error('Error retrieving NLU auth token');
+      }
+      return res.json();
+    }) // todo: throw here if non-200 status
+      .then(nlu_creds => this.setState({ ...nlu_creds })).catch(this.handleError);
+  }
+
+  fetchSTTToken() {
+    return fetch('/api/v1/stt_credentials').then((res) => {
+      if (res.status !== 200) {
+        throw new Error('Error retrieving STT auth token');
       }
       return res.json();
     }) // todo: throw here if non-200 status
