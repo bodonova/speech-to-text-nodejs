@@ -1,12 +1,16 @@
 ---
 declared-services:
   my-stt-service:
-    label: speech_to_text
+    label: cf push
+    plan: standard
+  my-nlu-service:
+    label: natural_language_understanding
     plan: standard
 applications:
-- name: speech-to-text-demo
+- name: speech-to-text-demo-nlu
   path: .
   command: npm start
   memory: 512M
   services:
   - my-stt-service
+  - my-nlu-service
